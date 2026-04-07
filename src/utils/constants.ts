@@ -2,20 +2,16 @@ import type { MapViewState } from '../types/map';
 
 export const MAPBOX_STYLE = {
   STREETS: 'mapbox://styles/mapbox/streets-v12',
-  DARK: 'mapbox://styles/mapbox/dark-v11',
   LIGHT: 'mapbox://styles/mapbox/light-v11',
+  DARK: 'mapbox://styles/mapbox/dark-v11',
   SATELLITE: 'mapbox://styles/mapbox/satellite-streets-v12',
-  NAVIGATION_DAY: 'mapbox://styles/mapbox/navigation-day-v1',
-  NAVIGATION_NIGHT: 'mapbox://styles/mapbox/navigation-night-v1',
-  TRAFFIC_DAY: 'mapbox://styles/mapbox/traffic-day-v2',
-  TRAFFIC_NIGHT: 'mapbox://styles/mapbox/traffic-night-v2',
 } as const;
 
 export const DA_NANG_CENTER: [number, number] = [108.2022, 16.0544];
 
 export const DEFAULT_VIEW_STATE: MapViewState = {
   center: DA_NANG_CENTER,
-  zoom: 13,
+  zoom: 14,
   pitch: 0,
   bearing: 0,
 };

@@ -7,10 +7,6 @@ interface UseWebSocketOptions {
   autoConnect?: boolean;
 }
 
-/**
- * Hook quản lý kết nối WebSocket.
- * Tự động connect khi mount, disconnect khi unmount.
- */
 export function useWebSocket(options: UseWebSocketOptions = {}) {
   const { onMessage, autoConnect = true } = options;
   const [status, setStatus] = useState<ConnectionStatus>('disconnected');

@@ -1,6 +1,3 @@
-/**
- * Haversine formula - tính khoảng cách (km) giữa 2 tọa độ GPS
- */
 export function haversineDistance(
   coord1: [number, number],
   coord2: [number, number],
@@ -35,7 +32,7 @@ export function formatDistance(meters: number): string {
 }
 
 /**
- * Tạo GeoJSON FeatureCollection từ mảng tọa độ
+ * Create a GeoJSON FeatureCollection from an array of coordinates
  */
 export function coordsToLineGeoJSON(
   coordinates: [number, number][],

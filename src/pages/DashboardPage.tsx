@@ -5,16 +5,16 @@ export function DashboardPage() {
 
   return (
     <div className="dashboard-page">
-      <h1>Dashboard</h1>
+      <h1>Bảng điều khiển</h1>
       <div className="dashboard-grid">
         <div className="dashboard-card">
-          <h3>Su co dang hoat dong</h3>
+          <h3>Sự cố đang hoạt động</h3>
           <span className="dashboard-stat">
             {incidents.filter((i) => !i.resolvedAt).length}
           </span>
         </div>
         <div className="dashboard-card">
-          <h3>Da giai quyet</h3>
+          <h3>Đã giải quyết</h3>
           <span className="dashboard-stat">
             {incidents.filter((i) => i.resolvedAt).length}
           </span>
