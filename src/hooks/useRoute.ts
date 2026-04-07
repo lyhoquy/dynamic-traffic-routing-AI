@@ -1,15 +1,11 @@
 import { useCallback, useState } from 'react';
 import { useMapStore } from '../store/mapStore';
 import { getDirections } from '../services/mapbox';
-import type { RouteData } from '../types/map';
 
-/**
- * Hook quản lý routing - tính toán và hiển thị tuyến đường trên map.
- */
 export function useRoute() {
   const [isCalculating, setIsCalculating] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { setActiveRoute, setAlternativeRoutes, clearRoutes } = useMapStore();
+  const { setActiveRoute, setAlternativeRoutes } = useMapStore();
 
   const calculateRoute = useCallback(
     async (waypoints: [number, number][]) => {
@@ -47,8 +43,8 @@ export function useRoute() {
     ) => {
       const waypoints: [number, number][] = [origin];
       if (avoidIncidents.length > 0) {
-        // TODO: Tính waypoint trung gian để tránh sự cố
-        // Đây là nơi AI sẽ đề xuất tuyến đường thay thế
+        // TODO: calculate intermediate waypoints to avoid incidents
+        // This is where AI will suggest alternative routes
       }
       waypoints.push(destination);
       return calculateRoute(waypoints);
@@ -61,6 +57,5 @@ export function useRoute() {
     error,
     calculateRoute,
     recalculateRoute,
-    clearRoutes,
   };
 }

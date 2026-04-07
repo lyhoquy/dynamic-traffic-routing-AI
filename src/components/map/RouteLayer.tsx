@@ -7,17 +7,7 @@ const ROUTE_LINE_CASING = 'route-line-casing';
 const ALT_ROUTE_SOURCE = 'alt-route-source';
 const ALT_ROUTE_LINE = 'alt-route-line';
 
-/**
- * RouteLayer - Quản lý source/layer cho tuyến đường trên bản đồ.
- *
- * Không render DOM. Chỉ tương tác với map instance thông qua addSource/addLayer.
- *
- * Giải thích cách hoạt động:
- * 1. Khi activeRoute thay đổi → cập nhật GeoJSON source
- * 2. Map tự động re-render layer dựa trên source mới
- * 3. Khi component unmount → cleanup sources và layers
- */
-export default function RouteLayer() {
+export function RouteLayer() {
   const map = useMapStore((s) => s.map);
   const activeRoute = useMapStore((s) => s.activeRoute);
   const alternativeRoutes = useMapStore((s) => s.alternativeRoutes);
@@ -83,12 +73,16 @@ export default function RouteLayer() {
     }
 
     return () => {
-      [ROUTE_LINE_LAYER, ROUTE_LINE_CASING, ALT_ROUTE_LINE].forEach((id) => {
-        if (map.getLayer(id)) map.removeLayer(id);
-      });
-      [ROUTE_SOURCE, ALT_ROUTE_SOURCE].forEach((id) => {
-        if (map.getSource(id)) map.removeSource(id);
-      });
+      try {
+        [ROUTE_LINE_LAYER, ROUTE_LINE_CASING, ALT_ROUTE_LINE].forEach((id) => {
+          if (map.getLayer(id)) map.removeLayer(id);
+        });
+        [ROUTE_SOURCE, ALT_ROUTE_SOURCE].forEach((id) => {
+          if (map.getSource(id)) map.removeSource(id);
+        });
+      } catch {
+        // map already removed
+      }
     };
   }, [map]);
 

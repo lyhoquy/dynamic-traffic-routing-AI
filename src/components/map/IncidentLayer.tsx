@@ -38,7 +38,7 @@ function incidentsToGeoJSON(incidents: Incident[]): GeoJSON.FeatureCollection {
  * - Data-driven styling: màu sắc, kích thước thay đổi theo severity
  * - Dễ cập nhật real-time (chỉ cần setData trên source)
  */
-export default function IncidentLayer() {
+export function IncidentLayer() {
   const map = useMapStore((s) => s.map);
   const incidents = useIncidentStore((s) => s.incidents);
   const setSelectedIncident = useIncidentStore((s) => s.setSelectedIncident);
@@ -100,10 +100,15 @@ export default function IncidentLayer() {
     }
 
     return () => {
-      [INCIDENT_CIRCLE_LAYER, INCIDENT_PULSE_LAYER].forEach((id) => {
-        if (map.getLayer(id)) map.removeLayer(id);
-      });
-      if (map.getSource(INCIDENT_SOURCE)) map.removeSource(INCIDENT_SOURCE);
+      try {
+        [INCIDENT_CIRCLE_LAYER, INCIDENT_PULSE_LAYER].forEach((id) => {
+          if (map.getLayer(id)) map.removeLayer(id);
+        });
+        if (map.getSource(INCIDENT_SOURCE)) map.removeSource(INCIDENT_SOURCE);
+      } catch {
+        // Map đã bị remove() → style = undefined → bỏ qua.
+        // map.remove() tự dọn sạch tất cả sources/layers rồi.
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [map]);
