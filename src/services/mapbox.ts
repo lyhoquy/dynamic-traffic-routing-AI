@@ -3,6 +3,13 @@ import { MAPBOX_DIRECTIONS_API } from '../utils/constants';
 
 const accessToken = import.meta.env.VITE_ACCESS_TOKEN;
 
+function generateSessionToken(): string {
+  return (
+    globalThis.crypto?.randomUUID?.() ??
+    `session-${Date.now()}-${Math.random().toString(36).slice(2)}`
+  );
+}
+
 type DirectionsProfile = 'driving' | 'driving-traffic' | 'walking' | 'cycling';
 
 interface DirectionsOptions {
@@ -71,10 +78,10 @@ export async function getDirections(
 }
 
 
-let sessionToken = crypto.randomUUID();
+let sessionToken = generateSessionToken();
 
 export function resetSearchSession() {
-  sessionToken = crypto.randomUUID();
+  sessionToken = generateSessionToken();
 }
 
 export interface SearchSuggestion {

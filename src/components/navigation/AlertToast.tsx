@@ -1,20 +1,29 @@
+import type { CSSProperties } from 'react';
 import { useIncidentStore } from '../../store/incidentStore';
 import { useRoute } from '../../hooks/useRoute';
+import { useMapStore } from '../../store/mapStore';
 import { INCIDENT_COLORS } from '../../utils/constants';
 
 export function AlertToast() {
   const selectedIncident = useIncidentStore((s) => s.selectedIncident);
   const setSelectedIncident = useIncidentStore((s) => s.setSelectedIncident);
   const { recalculateRoute } = useRoute();
+  const userLocation = useMapStore((s) => s.userLocation);
+  const destination = useMapStore((s) => s.destination);
 
   if (!selectedIncident) return null;
 
   const color = INCIDENT_COLORS[selectedIncident.type] ?? INCIDENT_COLORS.other;
 
   const handleReroute = () => {
+    if (!userLocation || !destination) {
+      setSelectedIncident(null);
+      return;
+    }
+
     recalculateRoute(
-      [108.2022, 16.0544],
-      [108.2322, 16.0744],
+      [userLocation.lng, userLocation.lat],
+      [destination.lng, destination.lat],
       [[selectedIncident.location.lng, selectedIncident.location.lat]],
     );
     setSelectedIncident(null);
@@ -25,7 +34,7 @@ export function AlertToast() {
   };
 
   return (
-    <div className="alert-toast" style={{ '--alert-color': color } as React.CSSProperties}>
+    <div className="alert-toast" style={{ '--alert-color': color } as CSSProperties}>
       <div className="alert-toast__indicator" />
       <div className="alert-toast__body">
         <div className="alert-toast__header">

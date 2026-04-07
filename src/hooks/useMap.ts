@@ -73,7 +73,7 @@ export function useMap({ container, style, initialViewState }: UseMapOptions) {
 
     destinationMarkerRef.current = new mapboxgl.Marker({ element: markerEl, anchor: 'bottom' })
       .setLngLat(lngLat)
-      .addTo(state.map!);
+      .addTo(e.target);
 
     const name = await reverseGeocode(lngLat);
     useMapStore.getState().setDestination({ lng: lngLat[0], lat: lngLat[1], name });

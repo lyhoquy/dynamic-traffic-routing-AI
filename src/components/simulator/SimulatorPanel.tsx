@@ -6,8 +6,8 @@ import { YoloPanel } from './YoloPanel';
 
 export function SimulatorPanel() {
   const [isOpen, setIsOpen] = useState(false);
-  const tickRef = useRef<ReturnType<typeof setInterval>>(null);
-  const yoloRef = useRef<ReturnType<typeof setInterval>>(null);
+  const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const yoloRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const {
     isRunning,
@@ -51,7 +51,10 @@ export function SimulatorPanel() {
       tickRef.current = setInterval(tick, tickIntervalMs);
     }
     return () => {
-      if (tickRef.current) clearInterval(tickRef.current);
+      if (tickRef.current) {
+        clearInterval(tickRef.current);
+        tickRef.current = null;
+      }
     };
   }, [isRunning, tick, tickIntervalMs]);
 
@@ -61,7 +64,10 @@ export function SimulatorPanel() {
       yoloRef.current = setInterval(yoloTick, 2000);
     }
     return () => {
-      if (yoloRef.current) clearInterval(yoloRef.current);
+      if (yoloRef.current) {
+        clearInterval(yoloRef.current);
+        yoloRef.current = null;
+      }
     };
   }, [isRunning, yoloEnabled, yoloTick]);
 

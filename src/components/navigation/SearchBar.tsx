@@ -16,7 +16,7 @@ export function SearchBar() {
   const [isLoading, setIsLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const debounceRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const {
     navigationState,
@@ -133,6 +133,14 @@ export function SearchBar() {
   useEffect(() => {
     if (isSearching) inputRef.current?.focus();
   }, [isSearching]);
+
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) {
+        clearTimeout(debounceRef.current);
+      }
+    };
+  }, []);
 
   const handleTapOnMapDestination = useCallback(async () => {
     if (!destination || !userLocation) return;
